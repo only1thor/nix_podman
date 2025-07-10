@@ -1,14 +1,12 @@
 {
-  description = "Minimal NixOS system with unprivileged Podman services";
-
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs = { self, nixpkgs, ... }:
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in {
-      nixosConfigurations.my-hostname = pkgs.lib.nixosSystem {
+    in
+    {
+      nixosConfigurations.test = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./configuration.nix

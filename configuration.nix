@@ -1,17 +1,32 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }: 
 
 {
-  services.podman.enable = true;
+  imports = [
+    # Import the docker-compose service definition
+    ./docker-compose.nix
+  ];
 
-  systemd.user.services.podman-compose = {
-    description = "Podman Compose Services";
-    after = [ "network.target" ];
-    wantedBy = [ "default.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.podman}/bin/podman-compose -f /path/to/docker-compose.yml up";
-      Restart = "always";
-      User = "your-unprivileged-user";
-      WorkingDirectory = "/home/your-unprivileged-user/your-compose-dir";
-    };
+  # Basic system settings
+  networking.hostName = "my-hostname";
+  time.timeZone = "Europe/Oslo";
+
+  users.users.test = {
+    isNormalUser = true;
+    initialPassword = "test";
+    extraGroups = [ "wheel" "podman" ];
   };
+
+  # Enable SSH for testing (optional)
+  services.openssh.enable = true;
+
+  networking.firewall.allowedTCPPorts = [ 8080 ];
+
+  # VM-specific resources (optional, but recommended)
+  virtualisation.vmVariant.virtualisation = {
+    memorySize = 1024;
+    cores = 1;
+  };
+  
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  system.stateVersion = "25.05";
 }
