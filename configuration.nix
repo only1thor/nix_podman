@@ -33,12 +33,27 @@
     "d /podman/navidrome_data 0755 1234 1234 -"
     "d /podman/navidrome_music 0755 1234 1234 -"
   ];
-  
 
-  
-  environment.systemPackages = with pkgs; [
-    yt-dlp
-  ];
+  # One-time service to download music on first boot
+  systemd.services.navidrome-music-download = {
+    description = "Download music for Navidrome on first boot";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    
+    serviceConfig = {
+      Type = "oneshot";
+      User = "navidrome";
+      Group = "navidrome";
+      WorkingDirectory = "/podman/navidrome_music";
+      ExecStart = "${pkgs.yt-dlp}/bin/yt-dlp --extract-audio --audio-quality 0 --add-metadata --embed-subs --embed-thumbnail --write-description --write-annotations https://soundcloud.com/lofi_girl/sets/synthwave-ambient-chill-music";
+      # Ensure this only runs once
+      ExecStartPost = "${pkgs.coreutils}/bin/touch /var/lib/navidrome-music-downloaded";
+    };
+    
+    # Only run if the flag file doesn't exist
+    unitConfig.ConditionPathExists = "!/var/lib/navidrome-music-downloaded";
+  };
 
   networking.firewall.allowedTCPPorts = [ 8080 ];
 
