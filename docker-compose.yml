@@ -3,3 +3,16 @@ services:
     image: nginx:alpine
     ports:
       - "8080:80"
+
+  navidrome:
+    image: deluan/navidrome:latest
+    user: 1234:1234 # should be owner of volumes
+    ports:
+      - "5080:4533"
+    restart: unless-stopped
+    #environment:
+      # Optional: put your config options customization here. Examples:
+      # ND_LOGLEVEL: debug
+    volumes:
+      - "/podman/navidrome_data:/data"
+      - "/podman/navidrome_music:/music:ro"

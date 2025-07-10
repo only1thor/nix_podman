@@ -19,6 +19,39 @@
   virtualisation.oci-containers.backend = "podman";
 
   # Containers
+  virtualisation.oci-containers.containers."testpods-navidrome" = {
+    image = "deluan/navidrome:latest";
+    volumes = [
+      "/podman/navidrome_data:/data:rw"
+      "/podman/navidrome_music:/music:ro"
+    ];
+    ports = [
+      "5080:4533/tcp"
+    ];
+    user = "1234:1234";
+    log-driver = "journald";
+    extraOptions = [
+      "--network-alias=navidrome"
+      "--network=testpods_default"
+    ];
+  };
+  systemd.services."podman-testpods-navidrome" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "always";
+    };
+    after = [
+      "podman-network-testpods_default.service"
+    ];
+    requires = [
+      "podman-network-testpods_default.service"
+    ];
+    partOf = [
+      "podman-compose-testpods-root.target"
+    ];
+    wantedBy = [
+      "podman-compose-testpods-root.target"
+    ];
+  };
   virtualisation.oci-containers.containers."testpods-nginx" = {
     image = "nginx:alpine";
     ports = [
