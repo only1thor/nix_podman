@@ -6,11 +6,12 @@
       system = "x86_64-linux";
     in
     {
-      nixosConfigurations.test = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./configuration.nix
-        ];
-      };
+      nixosConfigurations = {
+        test = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./configuration.nix
+          ];
+        };
     };
 }
