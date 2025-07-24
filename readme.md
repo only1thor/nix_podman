@@ -11,3 +11,9 @@ to generate docker-compose.nix use:
 build minimal iso with preloaded ssh keys:
 
 `nix build .#nixosConfigurations.isomini.config.system.build.isoImage`
+
+
+### Resources
+- https://haseebmajid.dev/posts/2024-02-04-how-to-create-a-custom-nixos-iso/
+- https://ash64.eu/blog/2022/building-custom-nixos-isos/
+- https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md
