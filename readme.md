@@ -1,7 +1,7 @@
 # Quick setup/disaster recovery
 
 1. Boot from the recovery iso with preloaded ssh keys.
-2. Then from the root of this repo run: `nixos-anywhere --flake .#test root@192.168.122.141`
+2. Then from the root of this repo run: `nixos-anywhere --flake .#test --generate-hardware-config nixos-generate-config ./podman_apps_server/hardware-configuration.nix root@192.168.122.141`
 
 ## Updating docker-compose.yaml/nix
 to generate docker-compose.nix use:

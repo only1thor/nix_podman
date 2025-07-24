@@ -4,6 +4,7 @@
   imports = [
     # Import the docker-compose service definition
     ./docker-compose.nix
+    ./hardware-configuration.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -44,7 +45,7 @@
     wantedBy = [ "multi-user.target" ];
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
-    
+
     serviceConfig = {
       Type = "oneshot";
       User = "navidrome";
@@ -54,7 +55,7 @@
       # Ensure this only runs once
       ExecStartPost = "${pkgs.coreutils}/bin/touch /var/lib/navidrome-music-downloaded";
     };
-    
+
     # Only run if the flag file doesn't exist
     unitConfig.ConditionPathExists = "!/var/lib/navidrome-music-downloaded";
   };
@@ -73,7 +74,7 @@
       { from = "host"; host.port = 8081; guest.port = 5080; }
     ];
   };
-  
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "25.05";
 }
