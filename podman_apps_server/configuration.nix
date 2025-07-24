@@ -8,6 +8,8 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
+  programs.fish.enable = true;
+  users.defaultUserShell = pkgs.fish;
 
   # Basic system settings
   console.keyMap = "dvorak";
