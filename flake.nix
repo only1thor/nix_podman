@@ -13,9 +13,9 @@
         test = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            ./configuration.nix
+            ./podman_apps_server/configuration.nix
             disko.nixosModules.disko
-            ./disko-config.nix
+            ./podman_apps_server/disko-config.nix
           ];
         };
       };
