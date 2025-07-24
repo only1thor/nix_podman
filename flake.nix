@@ -21,7 +21,7 @@
       isomini = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration-live-mini.nix
+          ./bootstrap_iso/configuration.nix
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
         ];
       };
