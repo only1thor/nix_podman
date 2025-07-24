@@ -8,29 +8,33 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
-  boot.initrd.systemd.enable = true;
-  boot.initrd.systemd.emergencyAccess = true;
 
   # Basic system settings
   console.keyMap = "dvorak";
   networking.hostName = "my-hostname";
   time.timeZone = "Europe/Oslo";
 
-  users.users.test = {
-    isNormalUser = true;
-    initialPassword = "test";
-    extraGroups = [ "wheel" "podman" ];
-  };
+  users = {
+    users = {
+      test = {
+        isNormalUser = true;
+        initialPassword = "test";
+        extraGroups = [ "wheel" "podman" ];
+      };
 
-  # Add navidrome user with specific UID/GID
-  users.users.navidrome = {
-    isSystemUser = true;
-    uid = 1234;
-    group = "navidrome";
-  };
+      # Add navidrome user with specific UID/GID
+      navidrome = {
+        isSystemUser = true;
+        uid = 1234;
+        group = "navidrome";
+      };
+    };
 
-  users.groups.navidrome = {
-    gid = 1234;
+    groups = {
+      navidrome = {
+        gid = 1234;
+      };
+    };
   };
 
   # Create podman data directory with correct ownership
