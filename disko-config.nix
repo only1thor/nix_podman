@@ -1,4 +1,5 @@
 { lib, ... }:
+
 {
   disko.devices = {
     disk.main = {
@@ -19,23 +20,9 @@
           root = {
             size = "100%";
             content = {
-              type = "btrfs";
-              extraArgs = [ "-L" "nixos-root" ];
+              type = "filesystem";
+              format = "ext4";
               mountpoint = "/";
-              subvolumes = {
-                "@root" = {
-                  mountpoint = "/";
-                  mountOptions = [ "compress=zstd" "noatime" ];
-                };
-                "@home" = {
-                  mountpoint = "/home";
-                  mountOptions = [ "compress=zstd" "noatime" ];
-                };
-                "@nix" = {
-                  mountpoint = "/nix";
-                  mountOptions = [ "compress=zstd" "noatime" ];
-                };
-              };
             };
           };
         };
